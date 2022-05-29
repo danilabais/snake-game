@@ -1,9 +1,39 @@
+const settingGame = {
+  get fieldW() {
+    return localStorage.getItem('fieldW')
+  },
+  setFieldW(fieldW) {
+    localStorage.setItem('fieldW', fieldW);
+    console.log('lol');
+  },
+  get fieldH() {
+    return localStorage.getItem('fieldH')
+  },
+  setFieldH(fieldH) {
+    localStorage.setItem('fieldH', fieldH);
+    console.log('lol');
+  },
+  
+}
+const selectHeight = document.querySelector('#selectHeight')
+const selectWidth = document.querySelector('#selectWidth')
+selectWidth.addEventListener('change',((e)=>{
+  game.reloadGame()
+  
+}))
+selectHeight.addEventListener('change',((e)=>{
+  settingGame.fieldH = e.target.value
+}))
+selectHeight.addEventListener('change',((e)=>console.log(e.target.value)))
+
 class Config {
     constructor() {
       this.step = 0;
       this.maxStep = 6;
       this.sizeCell = 16;
       this.sizeBerry = 16 / 2.5;
+      this.fieldW = settingGame.fieldW || 30
+      this.fieldH = settingGame.fieldH || 30
     }
   }
 
@@ -11,14 +41,17 @@ class Canvas {
   constructor(container) {
     this.element = document.createElement("canvas");
     this.context = this.element.getContext("2d");
-
-    this.element.width = 320;
-    this.element.height = 320;
+    this.config = new Config()
+    this.element.width = this.config.fieldW*16;
+    this.element.height = this.config.fieldH*16;
     container.appendChild(this.element);
   }
 }
 
-class gameLoop {
+
+
+
+class GameLoop {
   constructor(update, draw) {
     this.update = update;
     this.draw = draw;
@@ -28,6 +61,8 @@ class gameLoop {
     this.animate = this.animate.bind(this);
     this.animate();
   }
+
+  
   animate() {
     requestAnimationFrame(this.animate);
     if (++this.config.step < this.config.maxStep) {
@@ -39,6 +74,8 @@ class gameLoop {
     this.draw();
   }
 }
+
+
 
 function getRandomInt(min, max) {
   return Math.floor(Math.random() * (max - min) + min);
@@ -207,7 +244,7 @@ class Game {
     this.snake = new Snake();
     this.berry = new Berry(this.canvas);
     this.score = new Score(".game__score", 0);
-    new gameLoop(this.update.bind(this), this.draw.bind(this));
+    new GameLoop(this.update.bind(this), this.draw.bind(this));
   }
   update() {
     this.snake.update(this.berry, this.score, this.canvas);
@@ -222,7 +259,14 @@ class Game {
     this.snake.draw(this.canvas.context);
     this.berry.draw(this.canvas.context);
   }
+  // reloadGame() {
+  //   this.canvas = new Canvas(gameCanvas);
+  //   this.snake = new Snake();
+  //   this.berry = new Berry(this.canvas);
+  //   this.score = new Score(".game__score", 0);
+  //   new GameLoop(this.update.bind(this), this.draw.bind(this));
+  // }
 }
 
 const gameCanvas = document.querySelector(".game__canvas") 
-new Game(gameCanvas);
+let game = new Game(gameCanvas);

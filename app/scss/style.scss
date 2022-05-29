@@ -62,6 +62,15 @@
         display: flex; //Если убрать это, то высота будет на 4px больше ??
         background-image: url("../images/vectorpaint.svg");
     }
+    &__body {
+        display: flex;
+        gap: 10px
+    }
+    &__panel {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+    }
 }
 
 
