@@ -57,6 +57,7 @@
     &__canvas {
         background-color: #141414;
         border-radius: 5px;
+        border: 6px solid;
         box-shadow: 0px 0px 50px 20px #000000;
         display: flex; //Если убрать это, то высота будет на 4px больше ??
         background-image: url("../images/vectorpaint.svg");
