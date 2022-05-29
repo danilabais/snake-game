@@ -1,0 +1,67 @@
+@import 'vars';
+@import 'fonts';
+@import 'reset';
+@import 'libs';
+@import 'global';
+
+
+.game {
+	background: #414141;
+	width: 100vw;
+	height: 100vh;
+
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+    &__canvas {
+        display: block;
+        border-radius: 5px;	
+    }
+    &__header {
+        padding-top: 1vmin;
+        padding-bottom: 1vmin;
+    
+        display: flex;
+        justify-content: space-between;
+    }
+    &__score {
+        border-radius: 20px 0 0  20px;
+    }
+    &__record {
+        border-radius:0 20px   20px 0;
+
+    }
+    &__header > * {
+        padding: 10px 15px;
+        min-width: 160px;
+        background: #0a0a0a;
+        z-index: 2;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-size: 3vmin;
+        color: #1eff00;
+
+    }
+    &__hr {
+        height: 100%;
+        width: 1px;
+        background: red;
+        margin: 0 10px;
+    }
+    &__record {
+        font-size: 3vmin;
+        color: #1eff00;
+    }
+    &__canvas {
+        background-color: #141414;
+        border-radius: 5px;
+        box-shadow: 0px 0px 50px 20px #000000;
+        display: flex; //Если убрать это, то высота будет на 4px больше ??
+        background-image: url("../images/vectorpaint.svg");
+    }
+}
+
+
+
