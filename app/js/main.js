@@ -1,30 +1,35 @@
 const settingGame = {
-  get fieldW() {
-    return localStorage.getItem('fieldW')
-  },
-  setFieldW(fieldW) {
-    localStorage.setItem('fieldW', fieldW);
-    console.log('lol');
-  },
-  get fieldH() {
-    return localStorage.getItem('fieldH')
-  },
-  setFieldH(fieldH) {
-    localStorage.setItem('fieldH', fieldH);
-    console.log('lol');
-  },
+      get fieldH () {
+        return localStorage.getItem('fieldH')?localStorage.getItem('fieldH'): 30
+      },
+      get fieldW () {
+        return localStorage.getItem('fieldW') || 30
+      },
+
+
+      set setfieldW(fieldW) {
+        // setter, the code executed on setting obj.propName = value
+        localStorage.setItem('fieldW',fieldW)
+        this.fieldW = fieldW;
+      },
+      set (fieldH) {
+        localStorage.setItem('fieldH', fieldH)
+        this.fieldH = fieldH;
+      }
   
 }
-const selectHeight = document.querySelector('#selectHeight')
-const selectWidth = document.querySelector('#selectWidth')
-selectWidth.addEventListener('change',((e)=>{
-  game.reloadGame()
+
+
+const btn = document.getElementById('pauseBtn')
+btn.addEventListener('click',(()=>{
+  game.gamePause()
+  
+
+
   
 }))
-selectHeight.addEventListener('change',((e)=>{
-  settingGame.fieldH = e.target.value
-}))
-selectHeight.addEventListener('change',((e)=>console.log(e.target.value)))
+
+
 
 class Config {
     constructor() {
@@ -32,8 +37,8 @@ class Config {
       this.maxStep = 6;
       this.sizeCell = 16;
       this.sizeBerry = 16 / 2.5;
-      this.fieldW = settingGame.fieldW || 30
-      this.fieldH = settingGame.fieldH || 30
+      this.fieldW = settingGame.fieldW 
+      this.fieldH = settingGame.fieldH 
     }
   }
 
@@ -44,6 +49,7 @@ class Canvas {
     this.config = new Config()
     this.element.width = this.config.fieldW*16;
     this.element.height = this.config.fieldH*16;
+    container.innerHTML = ''
     container.appendChild(this.element);
   }
 }
@@ -239,12 +245,12 @@ class Snake {
 }
 
 class Game {
-  constructor(container) {
-    this.canvas = new Canvas(container);
+  constructor() {
+    this.canvas = new Canvas(gameCanvas);
     this.snake = new Snake();
     this.berry = new Berry(this.canvas);
     this.score = new Score(".game__score", 0);
-    new GameLoop(this.update.bind(this), this.draw.bind(this));
+    this.loop = new GameLoop(this.update.bind(this), this.draw.bind(this));
   }
   update() {
     this.snake.update(this.berry, this.score, this.canvas);
@@ -259,13 +265,13 @@ class Game {
     this.snake.draw(this.canvas.context);
     this.berry.draw(this.canvas.context);
   }
-  // reloadGame() {
-  //   this.canvas = new Canvas(gameCanvas);
-  //   this.snake = new Snake();
-  //   this.berry = new Berry(this.canvas);
-  //   this.score = new Score(".game__score", 0);
-  //   new GameLoop(this.update.bind(this), this.draw.bind(this));
-  // }
+  reloadGame() {
+    this.snake = new Snake();
+    this.canvas = new Canvas();
+    this.berry = new Berry(this.canvas);
+    this.score = new Score(".game__score", 0);
+  }
+
 }
 
 const gameCanvas = document.querySelector(".game__canvas") 
